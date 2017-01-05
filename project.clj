@@ -1,4 +1,6 @@
-(defproject hare "0.1.0-SNAPSHOT"
+(defn ver [] (-> "hare.version" slurp .trim))
+
+(defproject hare (ver)
   :description "Microservice RPC Library using RabbitMQ as transport"
   :url "https://github.com/BrianEdwards85/hare"
   :license {:name "Eclipse Public License"

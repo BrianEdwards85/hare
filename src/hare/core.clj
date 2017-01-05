@@ -14,8 +14,6 @@
 ;; :pub-ex         Exchange to publish to
 ;;}
 
-(def extra-paramater-ex "")
-
 (defn extra-paramater-map [v]
   (cond
     (or  (nil? v) (empty? v)) {}
@@ -65,7 +63,7 @@
   (let [ch (lch/open conn)
         option-map (extra-paramater-map options)]
     (do
-      (lb/publish ch pub-ex k payload options)
+      (lb/publish ch pub-ex k payload option-map)
       (rmq/close ch))))
 
 (defn reply-promise [{:keys [replies] :as parameters} i]
