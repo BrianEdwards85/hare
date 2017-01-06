@@ -17,6 +17,8 @@
 (defn extra-paramater-map [v]
   (cond
     (or  (nil? v) (empty? v)) {}
+    (map? v) v
+    (not (sequential? v)) (throw (IllegalArgumentException. "Sequence expected"))
     (= (count v) 1) (if (map? (first v)) (first v) (throw (IllegalArgumentException. "Map expected" )))
     (even? (count v)) (apply hash-map v)
     :else (throw (IllegalArgumentException. "Unable to create map" ))
