@@ -8,4 +8,5 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [com.novemberain/langohr "3.7.0"]
                  [clj-time "0.12.2"]]
+  :plugins [[lein-midje "3.2.1"]]
   :profiles {:dev {:dependencies [[midje "1.8.3"]]}})
