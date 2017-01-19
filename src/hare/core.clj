@@ -5,7 +5,8 @@
             [langohr.queue      :as lq]
             [langohr.exchange   :as le]
             [langohr.consumers  :as lc]
-            [langohr.basic      :as lb]))
+            [langohr.basic      :as lb]
+            [manifold.deferred :as d]))
 
 ;;Connection Map{
 ;; :rabbit {....}  RabbitMQ Connection Paramaters
@@ -29,7 +30,7 @@
     (let [reply-id (:correlation-id meta)]
       (when-let [p (get @replies reply-id)]
         (do
-          (deliver (:p p) payload)
+          (d/success! (:p p) payload)
           (swap! replies #(dissoc % reply-id)))))))
 
 (defn connect [{:keys [rabbit reply-queue-name sub-ex pub-ex] :as parameters}]
@@ -69,7 +70,8 @@
       (rmq/close ch))))
 
 (defn reply-promise [{:keys [replies] :as parameters} i]
-  (let [p (promise)]
+;;  (let [p (promise)]
+  (let [p (d/deferred)]
     (swap! replies  #(assoc % i {:p p :id i :exp nil }))
     p))
 
